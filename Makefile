@@ -31,15 +31,16 @@ bench-compare: install-benchstat
 	fi; \
 	echo "   Current state: $$CURRENT_STATE"; \
 	echo "   Benchmarking OLD_REF [$(OLD_REF)]..."; \
-	git checkout $(OLD_REF) --quiet; \
-	go test -bench=$(BENCH_FUNC) -benchmem -count=$(BENCH_COUNT) $(PKG) > old.bench || { \
+	git --work-tree=bench/old checkout $(OLD_REF) --quiet; \
+	cd bench/old; \
+	go test -bench=$(BENCH_FUNC) -benchmem -count=$(BENCH_COUNT) $(PKG) > ../old.bench || { \
 		echo "Error: Benchmarking $(OLD_REF) failed."; \
 		git checkout $$CURRENT_STATE --quiet; \
 		exit 1; \
 	}; \
+	cd .. \
 	echo "   Benchmarking NEW_REF [$(NEW_REF)]..."; \
-	git checkout $(NEW_REF) --quiet; \
-	go test -bench=$(BENCH_FUNC) -benchmem -count=$(BENCH_COUNT) $(PKG) > new.bench || { \
+	go test -bench=$(BENCH_FUNC) -benchmem -count=$(BENCH_COUNT) $(PKG) > bench/new.bench || { \
 		echo "Error: Benchmarking $(NEW_REF) failed."; \
 		git checkout $$CURRENT_STATE --quiet; \
 		rm -f old.bench; \
@@ -48,9 +49,9 @@ bench-compare: install-benchstat
 	echo "   Reverting to [$$CURRENT_STATE]"; \
 	git checkout $$CURRENT_STATE --quiet; \
 	echo ">>> Benchmark results:"; \
-	benchstat old.bench new.bench; \
+	benchstat bench/old.bench bench/new.bench; \
 	echo "   Cleaning up benchmark files"; \
-	rm -f old.bench new.bench; \
+	rm -f bench/old.bench bench/new.bench; \
 	echo "Done."
 
 install-benchstat:
@@ -69,7 +70,8 @@ install-benchstat:
 
 clean:
 	go clean
-	rm -f old.bench new.bench
+	rm -rf bench/old
+	rm -f bench/old.bench bench/new.bench
 
 help:
 	@echo "Available commands:"
