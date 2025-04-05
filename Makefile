@@ -65,7 +65,7 @@ install-benchstat:
 			exit 1; \
 		fi \
 	else \
-		echo "   Narzędzie 'benchstat' znalezione."; \
+		echo "   'benchstat' already installed."; \
 	fi
 
 clean:
