@@ -2,7 +2,7 @@ PKG := ./...
 BENCH_FUNC := ^BenchmarkNumMatrix_SumRegion$
 OLD_REF ?= HEAD~1
 NEW_REF ?= HEAD
-BENCH_COUNT ?= 5
+BENCH_COUNT ?= 10
 
 .PHONY: all build test bench clean bench-compare install-benchstat help
 
