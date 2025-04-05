@@ -19,7 +19,7 @@ func (nm *NumMatrix) SumRegion(row1 int, col1 int, row2 int, col2 int) int {
 	sum := 0
 
 	for r := row1; r <= row2; r++ {
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(1000 * time.Millisecond)
 		if col1 == 0 {
 			sum += nm.matrix[r][col2]
 		} else {
