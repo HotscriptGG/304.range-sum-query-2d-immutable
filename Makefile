@@ -23,7 +23,7 @@ bench-compare: install-benchstat
 	@echo ">>> Compare benchmarks '$(BENCH_FUNC)' between [$(OLD_REF)] and [$(NEW_REF)]"
 	@# Checking if repo is clean
 	@if ! git diff --quiet HEAD; then \
-		echo "⛔️ Error: Git state unclean."; \
+		echo "Error: Git state unclean."; \
 		exit 1; \
 	fi
 	@# Saving current state
@@ -36,12 +36,12 @@ bench-compare: install-benchstat
 		echo "   Benchmarking OLD_REF [$(OLD_REF)]..."; \
 		git checkout $(OLD_REF) --quiet; \
 		go test -bench=$(BENCH_FUNC) -benchmem -count=$(BENCH_COUNT) $(PKG) > old.bench || \
-			(echo "⛔️ Error: Benchmarking $(OLD_REF) failed."; git checkout $$CURRENT_STATE --quiet; exit 1); \
+			(echo "Error: Benchmarking $(OLD_REF) failed."; git checkout $$CURRENT_STATE --quiet; exit 1); \
 		\
 		echo "   Benchmarking NEW_REF [$(NEW_REF)]..."; \
 		git checkout $(NEW_REF) --quiet; \
 		go test -run=^$ -bench=$(BENCH_FUNC) -benchmem -count=$(BENCH_COUNT) $(PKG) > new.bench || \
-			(echo "⛔️ Error: Benchmarking $(NEW_REF) failed."; git checkout $$CURRENT_STATE --quiet; rm -f old.bench; exit 1); \
+			(echo "Error: Benchmarking $(NEW_REF) failed."; git checkout $$CURRENT_STATE --quiet; rm -f old.bench; exit 1); \
 		\
 		echo "   Reverting to [$$CURRENT_STATE]"; \
 		git checkout $$CURRENT_STATE --quiet; \
@@ -51,7 +51,7 @@ bench-compare: install-benchstat
 		\
 		echo "   Removing benchmark files"; \
 		rm -f old.bench new.bench; \
-		echo "✅ Done"; \
+		echo "Done"; \
 	}
 
 install-benchstat:
@@ -60,7 +60,7 @@ install-benchstat:
 		go install golang.org/x/perf/cmd/benchstat@latest; \
 		export PATH=$$PATH:$(go env GOPATH)/bin; \
 		if ! command -v benchstat > /dev/null; then \
-			echo "⛔️ Error: Installing 'benchstat' failed or missing in  PATH."; \
+			echo "Error: Installing 'benchstat' failed or missing in  PATH."; \
 			echo "   Install manually: go install golang.org/x/perf/cmd/benchstat@latest"; \
 			exit 1; \
 		fi \
