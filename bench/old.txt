@@ -1,0 +1,11 @@
+goos: windows
+goarch: amd64
+pkg: askuma.pl/sumquery2d
+cpu: 12th Gen Intel(R) Core(TM) i7-12700H
+BenchmarkNumMatrix_SumRegion-20    	361049064	         3.233 ns/op
+BenchmarkNumMatrix_SumRegion-20    	354022297	         3.188 ns/op
+BenchmarkNumMatrix_SumRegion-20    	391128552	         3.197 ns/op
+BenchmarkNumMatrix_SumRegion-20    	380605968	         3.161 ns/op
+BenchmarkNumMatrix_SumRegion-20    	378033243	         3.202 ns/op
+PASS
+ok  	askuma.pl/sumquery2d	8.145s
