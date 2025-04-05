@@ -32,7 +32,7 @@ bench-compare: install-benchstat
 	echo "   Current state: $$CURRENT_STATE"; \
 	echo "   Benchmarking OLD_REF [$(OLD_REF)]..."; \
 	mkdir -p bench/old; \
-	git --work-tree=bench/old checkout $(OLD_REF) --quiet; \
+	git --work-tree=bench/old checkout $(OLD_REF) --quiet .; \
 	cd bench/old; \
 	go test -bench=$(BENCH_FUNC) -benchmem -count=$(BENCH_COUNT) $(PKG) > ../old.bench || { \
 		echo "Error: Benchmarking $(OLD_REF) failed."; \
