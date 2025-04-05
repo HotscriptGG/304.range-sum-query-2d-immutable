@@ -40,7 +40,7 @@ bench-compare: install-benchstat
 		\
 		echo "   Benchmarking NEW_REF [$(NEW_REF)]..."; \
 		git checkout $(NEW_REF) --quiet; \
-		go test -run=^$ -bench=$(BENCH_FUNC) -benchmem -count=$(BENCH_COUNT) $(PKG) > new.bench || \
+		go test -bench=$(BENCH_FUNC) -benchmem -count=$(BENCH_COUNT) $(PKG) > new.bench || \
 			(echo "Error: Benchmarking $(NEW_REF) failed."; git checkout $$CURRENT_STATE --quiet; rm -f old.bench; exit 1); \
 		\
 		echo "   Reverting to [$$CURRENT_STATE]"; \
